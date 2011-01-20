@@ -114,7 +114,7 @@ public class SimpleHome extends JavaPlugin
     if ( cmd.getName().compareToIgnoreCase("sethome") == 0 )
     {
       m_Homes.put(player.getName(), player.getLocation());
-      player.sendMessage( ChatColor.RED + "Home set!" );
+      player.sendMessage( ChatColor.GREEN + "Home set!" );
       saveSettings();
       return true;
     }
