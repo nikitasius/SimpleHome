@@ -1,6 +1,6 @@
 name: SimpleHome
-main: com.bukkit.silence.simplehome.SimpleHome
-version: 1.2
+main: net.immortal_forces.silence.plugin.simplehome.SimpleHome
+version: 1.4
 commands:
   home:
     description: Teleports you to your home

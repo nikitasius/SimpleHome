@@ -19,7 +19,7 @@
  * MA 02111-1307, USA.
  */
 
-package com.bukkit.silence.simplehome;
+package net.immortal_forces.silence.plugin.simplehome;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -31,10 +31,11 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -96,8 +97,19 @@ public class SimpleHome extends JavaPlugin
   }
   
   @Override
-  public boolean onCommand(Player player, Command cmd, String commandLabel, String[] args)
+  public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
   {
+    Player player = null;
+    try
+    {
+      player = (Player)sender;
+    }
+    catch (Exception e)
+    {
+      sender.sendMessage(ChatColor.RED + "Only players can use this command!");
+      return true;
+    }
+
     if ( cmd.getName().compareToIgnoreCase("home") == 0 )
     {
       Location loc = m_Homes.get(player.getName());
@@ -131,7 +143,7 @@ public class SimpleHome extends JavaPlugin
         Location loc = entry.getValue();
         if ( loc != null )
         {
-          writer.write(entry.getKey() + ";" + loc.getX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ() + ";" + loc.getPitch() + ";" + loc.getYaw() );
+          writer.write(entry.getKey() + ";" + loc.getX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ() + ";" + loc.getPitch() + ";" + loc.getYaw() + ";" + loc.getWorld().getName() );
           writer.newLine();
         }
       }
@@ -153,7 +165,7 @@ public class SimpleHome extends JavaPlugin
       while ( line != null )
       {
         String[] values = line.split(";");
-        if ( values.length == 6 )
+        if ( values.length == 7 )
         {
           double X = Double.parseDouble(values[1]);
           double Y = Double.parseDouble(values[2]);
@@ -161,8 +173,9 @@ public class SimpleHome extends JavaPlugin
           float pitch = Float.parseFloat(values[4]);
           float yaw = Float.parseFloat(values[5]);
 
-          World world = getServer().getWorlds()[0];
-          m_Homes.put(values[0], new Location(world, X, Y, Z, yaw, pitch));
+          World world = getServer().getWorld(values[6]);
+          if ( world != null )
+            m_Homes.put(values[0], new Location(world, X, Y, Z, yaw, pitch));
         }
         line = reader.readLine();
       }
