@@ -1,6 +1,6 @@
 name: SimpleHome
 main: net.immortal_forces.silence.plugin.simplehome.SimpleHome
-version: 1.4
+version: 1.5
 commands:
   home:
     description: Teleports you to your home

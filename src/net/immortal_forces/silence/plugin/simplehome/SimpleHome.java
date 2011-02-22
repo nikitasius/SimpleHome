@@ -31,13 +31,11 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.PluginManager;
 
@@ -48,14 +46,16 @@ public class SimpleHome extends JavaPlugin
   private File m_Folder;
   private HashMap<String, Location> m_Homes = new HashMap<String, Location>();
   
-  public SimpleHome(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader)
+  public SimpleHome()
   {
-    super(pluginLoader, instance, desc, folder, plugin, cLoader);
-    m_Folder = folder;
+    super();
   }
 
   public void onEnable() 
   {
+    //From Ctor
+    m_Folder = getDataFolder();
+    
     // Register our events
     PluginManager pm = getServer().getPluginManager();
     
