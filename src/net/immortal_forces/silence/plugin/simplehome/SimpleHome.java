@@ -115,7 +115,7 @@ public class SimpleHome extends JavaPlugin
       Location loc = m_Homes.get(player.getName());
       if ( loc != null )
       {
-        player.teleportTo(loc);
+        player.teleport(loc);
       }
       else
       {
